@@ -1,4 +1,5 @@
 use clap::Parser;
+use ndarray::{Array, IxDyn};
 use unsloth_rs::core::Tensor;
 use unsloth_rs::dataprep::synthetic::SyntheticDataKit;
 use unsloth_rs::kernels::fast_lora::{LoraMlp, LoraQkv};
@@ -19,7 +20,9 @@ fn main() {
     let args = Args::parse();
     println!("Model: {}", args.model);
 
-    let tensor = Tensor::new(vec![1.0, 2.0, 3.0, 4.0], vec![2, 2]);
+    let tensor = Tensor::new(
+        Array::from_shape_vec(IxDyn(&[2, 2]), vec![1.0, 2.0, 3.0, 4.0]).unwrap(),
+    );
     println!("Tensor: {:?}", tensor);
 
     let synthetic_data_kit = SyntheticDataKit::new();
@@ -27,26 +30,26 @@ fn main() {
     println!("Synthetic data generation complete!");
 
     let lora_mlp = LoraMlp::new(
-        Tensor::new(vec![], vec![]),
-        Tensor::new(vec![], vec![]),
-        Tensor::new(vec![], vec![]),
-        Tensor::new(vec![], vec![]),
-        Tensor::new(vec![], vec![]),
-        Tensor::new(vec![], vec![]),
-        Tensor::new(vec![], vec![]),
-        Tensor::new(vec![], vec![]),
-        Tensor::new(vec![], vec![]),
+        Tensor::new(Array::zeros(IxDyn(&[2, 2]))),
+        Tensor::new(Array::zeros(IxDyn(&[2, 2]))),
+        Tensor::new(Array::zeros(IxDyn(&[2, 2]))),
+        Tensor::new(Array::zeros(IxDyn(&[2, 2]))),
+        Tensor::new(Array::zeros(IxDyn(&[2, 2]))),
+        Tensor::new(Array::zeros(IxDyn(&[2, 2]))),
+        Tensor::new(Array::zeros(IxDyn(&[2, 2]))),
+        Tensor::new(Array::zeros(IxDyn(&[2, 2]))),
+        Tensor::new(Array::zeros(IxDyn(&[2, 2]))),
     );
     let lora_qkv = LoraQkv::new(
-        Tensor::new(vec![], vec![]),
-        Tensor::new(vec![], vec![]),
-        Tensor::new(vec![], vec![]),
-        Tensor::new(vec![], vec![]),
-        Tensor::new(vec![], vec![]),
-        Tensor::new(vec![], vec![]),
-        Tensor::new(vec![], vec![]),
-        Tensor::new(vec![], vec![]),
-        Tensor::new(vec![], vec![]),
+        Tensor::new(Array::zeros(IxDyn(&[2, 2]))),
+        Tensor::new(Array::zeros(IxDyn(&[2, 2]))),
+        Tensor::new(Array::zeros(IxDyn(&[2, 2]))),
+        Tensor::new(Array::zeros(IxDyn(&[2, 2]))),
+        Tensor::new(Array::zeros(IxDyn(&[2, 2]))),
+        Tensor::new(Array::zeros(IxDyn(&[2, 2]))),
+        Tensor::new(Array::zeros(IxDyn(&[2, 2]))),
+        Tensor::new(Array::zeros(IxDyn(&[2, 2]))),
+        Tensor::new(Array::zeros(IxDyn(&[2, 2]))),
     );
 
     let mlp_output = lora_mlp.forward(&tensor);

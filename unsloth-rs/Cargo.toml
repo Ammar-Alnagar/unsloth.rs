@@ -5,6 +5,7 @@ edition = "2021"
 
 [dependencies]
 clap = { version = "4.5.4", features = ["derive"] }
+ndarray = "0.15.4"
 
 [[test]]
 name = "dataprep"
