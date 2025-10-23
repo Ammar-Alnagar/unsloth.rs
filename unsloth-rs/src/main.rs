@@ -64,8 +64,8 @@ fn main() {
     model.save("model.bin");
     let loaded_model = Model::load("model.bin");
 
-    let llama_model = LlamaModel::new();
-    let llama_output = llama_model.forward(&tensor);
+    let llama_model = LlamaModel::new(8, 4, 128, 32000, 32);
+    let llama_output = llama_model.forward(&[1, 2, 3, 4]);
     println!("Llama output: {:?}", llama_output);
 
     let ppo = PPO::new();
