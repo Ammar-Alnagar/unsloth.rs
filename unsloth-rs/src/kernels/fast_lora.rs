@@ -1,4 +1,5 @@
 use crate::core::Tensor;
+use ndarray::{Array, IxDyn};
 
 pub struct LoraMlp {
     gate_w: Tensor,
@@ -38,8 +39,23 @@ impl LoraMlp {
     }
 
     pub fn forward(&self, x: &Tensor) -> Tensor {
-        // We will implement this later.
-        Tensor::new(vec![], vec![])
+        // Gate path
+        let gate_main = x.matmul(&self.gate_w);
+        let gate_lora = x.matmul(&self.lora_a_gate).matmul(&self.lora_b_gate);
+        let gate = gate_main.add(&gate_lora);
+
+        // Up path
+        let up_main = x.matmul(&self.up_w);
+        let up_lora = x.matmul(&self.lora_a_up).matmul(&self.lora_b_up);
+        let up = up_main.add(&up_lora);
+
+        // Activation
+        let act = gate.silu().mul(&up);
+
+        // Down path
+        let down_main = act.matmul(&self.down_w);
+        let down_lora = act.matmul(&self.lora_a_down).matmul(&self.lora_b_down);
+        down_main.add(&down_lora)
     }
 }
 
@@ -81,11 +97,21 @@ impl LoraQkv {
     }
 
     pub fn forward(&self, x: &Tensor) -> (Tensor, Tensor, Tensor) {
-        // We will implement this later.
-        (
-            Tensor::new(vec![], vec![]),
-            Tensor::new(vec![], vec![]),
-            Tensor::new(vec![], vec![]),
-        )
+        // Q path
+        let q_main = x.matmul(&self.q_w);
+        let q_lora = x.matmul(&self.lora_a_q).matmul(&self.lora_b_q);
+        let q = q_main.add(&q_lora);
+
+        // K path
+        let k_main = x.matmul(&self.k_w);
+        let k_lora = x.matmul(&self.lora_a_k).matmul(&self.lora_b_k);
+        let k = k_main.add(&k_lora);
+
+        // V path
+        let v_main = x.matmul(&self.v_w);
+        let v_lora = x.matmul(&self.lora_a_v).matmul(&self.lora_b_v);
+        let v = v_main.add(&v_lora);
+
+        (q, k, v)
     }
 }

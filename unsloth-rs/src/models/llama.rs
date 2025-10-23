@@ -10,37 +10,41 @@ impl LlamaAttention {
     }
 
     pub fn forward(&self, x: &Tensor) -> Tensor {
-        // We will implement this later.
-        Tensor::new(vec![], vec![])
+        // For now, just return the input tensor.
+        Tensor::new(x.data.clone())
     }
 }
 
 pub struct LlamaDecoderLayer {
-    // We will fill this in later.
+    self_attn: LlamaAttention,
 }
 
 impl LlamaDecoderLayer {
     pub fn new() -> Self {
-        LlamaDecoderLayer {}
+        LlamaDecoderLayer {
+            self_attn: LlamaAttention::new(),
+        }
     }
 
     pub fn forward(&self, x: &Tensor) -> Tensor {
-        // We will implement this later.
-        Tensor::new(vec![], vec![])
+        // For now, just pass the input through the attention layer.
+        self.self_attn.forward(x)
     }
 }
 
 pub struct LlamaModel {
-    // We will fill this in later.
+    layers: Vec<LlamaDecoderLayer>,
 }
 
 impl LlamaModel {
     pub fn new() -> Self {
-        LlamaModel {}
+        LlamaModel {
+            layers: vec![LlamaDecoderLayer::new()],
+        }
     }
 
     pub fn forward(&self, x: &Tensor) -> Tensor {
-        // We will implement this later.
-        Tensor::new(vec![], vec![])
+        // For now, just pass the input through the first layer.
+        self.layers[0].forward(x)
     }
 }
