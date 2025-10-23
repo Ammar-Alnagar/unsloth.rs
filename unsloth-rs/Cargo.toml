@@ -1,0 +1,23 @@
+[package]
+name = "unsloth-rs"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+clap = { version = "4.5.4", features = ["derive"] }
+
+[[test]]
+name = "dataprep"
+path = "tests/dataprep.rs"
+
+[[test]]
+name = "kernels"
+path = "tests/kernels.rs"
+
+[[test]]
+name = "models"
+path = "tests/models.rs"
+
+[[test]]
+name = "trainer"
+path = "tests/trainer.rs"
